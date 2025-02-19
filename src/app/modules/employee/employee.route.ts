@@ -10,5 +10,6 @@ router.post('/create',
     validateRequest(createEmployeeValidationSchema),
     EmployeeControllers.createEmployee
 )
+router.get('/all', EmployeeControllers.getAllEmployees)
 
 export const EmployeeRoutes = router;
