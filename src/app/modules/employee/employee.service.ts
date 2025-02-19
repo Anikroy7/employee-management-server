@@ -120,10 +120,30 @@ const getEmployeeByIdFromDB = async (id: string) => {
 };
 
 
+const deleteEmployeeByIdFromDB = async (id: string) => {
+    // Employee exists or not
+    const isExists = await prisma.employee.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if (!isExists) {
+        throw new AppError(httpStatus.NOT_FOUND, "Employee not found!!")
+    }
+    const result = await prisma.employee.delete({
+        where: {
+            id: id
+        }
+    })
+    return result;
+};
+
 
 export const EmployeeServices = {
     createEmployeeIntoDB,
     getAllEmployeesFromDB,
     updateEmployeeIntoDB,
+    deleteEmployeeByIdFromDB,
     getEmployeeByIdFromDB
 };

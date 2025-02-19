@@ -10,6 +10,7 @@ router.post('/create',
     validateRequest(createEmployeeValidationSchema),
     EmployeeControllers.createEmployee
 )
+
 router.get('/all', EmployeeControllers.getAllEmployees)
 
 router.patch('/update/:id',
@@ -20,5 +21,11 @@ router.patch('/update/:id',
 router.get('/:id',
     EmployeeControllers.getEmployeeById
 )
+
+router.delete('/:id',
+    EmployeeControllers.deleteEmployee
+)
+
+
 
 export const EmployeeRoutes = router;

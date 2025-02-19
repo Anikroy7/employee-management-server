@@ -3,6 +3,7 @@ import cors from 'cors'
 import notFound from "./app/middlewares/notFound";
 import cookieParser from "cookie-parser";
 import router from "./app/routes";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -25,6 +26,8 @@ app.get('/', (req: Request, res: Response) => {
     })
 })
 
+//Global middleware
+app.use(globalErrorHandler);
 
 //not Found
 app.use(notFound)
