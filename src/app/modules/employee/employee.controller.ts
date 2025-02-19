@@ -29,7 +29,32 @@ const getAllEmployees = catchAsync(async (req, res) => {
     });
   });
 
+  const updateEmployee = catchAsync(async (req, res) => {
+    const employeeData = req.body;
+    const { id } = req.params
+    const result = await EmployeeServices.updateEmployeeIntoDB(id, employeeData);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Employee updated successfully",
+      data: result,
+    });
+  });
+
+  const getEmployeeById = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const result = await EmployeeServices.getEmployeeByIdFromDB(id);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Employee retrieved successfully",
+      data: result,
+    });
+  });
+
 export const EmployeeControllers = {
     createEmployee,
-    getAllEmployees
+    updateEmployee,
+    getAllEmployees,
+    getEmployeeById
 };

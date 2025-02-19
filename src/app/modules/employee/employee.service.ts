@@ -45,7 +45,7 @@ console.log(searchTerm, filterData)
         andCondions.push({
             AND: Object.keys(filterData).map(key => ({
                 [key]: {
-                    equals: filterData
+                    equals: (filterData as any)[key]
                 }
             }))
         })
@@ -75,8 +75,55 @@ console.log(searchTerm, filterData)
 };
 
 
+const updateEmployeeIntoDB = async (id: string, payload: Employee) => {
+
+    // Employee exists or not
+    const isExists = await prisma.employee.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if (!isExists) {
+        throw new AppError(httpStatus.NOT_FOUND, "Employee not found!!")
+    }
+
+    // Email can't be updated
+    if (Object.keys(payload).includes('email')) {
+        throw new AppError(httpStatus.BAD_REQUEST, "Email can't be updated!!")
+
+    }
+
+    const result = await prisma.employee.update({
+        where: {
+            id: id
+        },
+        data: payload
+    })
+
+    return result
+}
+
+
+const getEmployeeByIdFromDB = async (id: string) => {
+    // Employee exists or not
+    const isExists = await prisma.employee.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if (!isExists) {
+        throw new AppError(httpStatus.NOT_FOUND, "Employee not found!!")
+    }
+    return isExists;
+};
+
+
 
 export const EmployeeServices = {
     createEmployeeIntoDB,
-    getAllEmployeesFromDB
+    getAllEmployeesFromDB,
+    updateEmployeeIntoDB,
+    getEmployeeByIdFromDB
 };

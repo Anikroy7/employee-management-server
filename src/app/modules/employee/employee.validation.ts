@@ -10,3 +10,13 @@ export const createEmployeeValidationSchema = z.object({
     status: z.enum(["ACTIVE", "BLOCKED"]).default('ACTIVE'),
   }),
 });
+
+export const updateEmployeeValidationSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    imageUrl: z.string().optional(),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+    status: z.enum(["ACTIVE", "BLOCKED"]).optional(),
+  }),
+});
