@@ -9,12 +9,12 @@ const createEmployeeIntoDB = async (payload: Employee) => {
     const isExists = await prisma.employee.findUnique({
         where: {
             email: payload.email
-        }   
+        }
     })
-
     if (isExists) {
         throw new AppError(httpStatus.BAD_REQUEST, "Employee already exists with this email.")
     }
+    console.log('test')
 
     const result = await prisma.employee.create({
         data: payload
@@ -29,7 +29,7 @@ const getAllEmployeesFromDB = async (params: TEmployeeFilterableFields, options:
     const { searchTerm, ...filterData } = params;
     const andCondions: Prisma.EmployeeWhereInput[] = [];
     const { page, limit, skip } = paginationHelper.calculatePagination(options);
-console.log(searchTerm, filterData)
+   console.log(params, options)
     if (searchTerm) {
         andCondions.push({
             OR: employeeSearchAbleFields.map(field => ({
