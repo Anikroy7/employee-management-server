@@ -57,6 +57,9 @@ const getAllEmployeesFromDB = async (params: TEmployeeFilterableFields, options:
         where: whereConditons,
         skip,
         take: limit,
+        orderBy:{
+            createdAt: 'desc'
+        }
     });
 
 

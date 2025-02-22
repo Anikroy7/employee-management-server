@@ -38,6 +38,7 @@ const createEmployeeIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     if (isExists) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Employee already exists with this email.");
     }
+    console.log('test');
     const result = yield global_1.prisma.employee.create({
         data: payload
     });
@@ -47,7 +48,7 @@ const getAllEmployeesFromDB = (params, options) => __awaiter(void 0, void 0, voi
     const { searchTerm } = params, filterData = __rest(params, ["searchTerm"]);
     const andCondions = [];
     const { page, limit, skip } = paginationHelper_1.paginationHelper.calculatePagination(options);
-    console.log(searchTerm, filterData);
+    console.log(params, options);
     if (searchTerm) {
         andCondions.push({
             OR: employee_constant_1.employeeSearchAbleFields.map(field => ({
@@ -74,6 +75,9 @@ const getAllEmployeesFromDB = (params, options) => __awaiter(void 0, void 0, voi
         where: whereConditons,
         skip,
         take: limit,
+        orderBy: {
+            createdAt: 'desc'
+        }
     });
     const total = yield global_1.prisma.employee.count({
         where: whereConditons
